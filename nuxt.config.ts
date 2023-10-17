@@ -3,8 +3,12 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
     '@nuxtjs/tailwindcss',
-    '@nuxtjs/supabase'
+    '@nuxtjs/supabase',
+    '@formkit/nuxt',
   ],
+  formkit:{
+    autoImport:true,
+  },
   supabase: {
     redirectOptions: {
       login: '/login',
