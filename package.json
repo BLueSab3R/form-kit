@@ -20,6 +20,9 @@
   "dependencies": {
     "@formkit/nuxt": "^1.2.2",
     "@formkit/themes": "^1.2.2",
+    "@vueuse/components": "^10.5.0",
+    "@vueuse/core": "^10.5.0",
+    "use-infinite-scroll": "^0.1.1",
     "yup": "^1.3.2"
   }
 }

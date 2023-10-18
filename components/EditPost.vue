@@ -29,11 +29,11 @@
       >
       </FormKit>
       <FormKit
+        type="url"
         v-model="formData.website"
         label="New website"
         validation="url"
         validation-visibility="live"
-
       >
       </FormKit>
       <button class="flex mt-20 justify-center" @click="updatePost">
@@ -44,7 +44,7 @@
 </template>
 
 <style>
-.formkit-label{
+.formkit-label {
   font-weight: bold;
 }
 .formkit-message {
