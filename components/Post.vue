@@ -33,7 +33,7 @@
   
   <script setup>
   const { user } = defineProps(['user']);
-  const emit = defineEmits(['openEdit', 'openDelete']);
+    const emit = defineEmits(['openEdit', 'openDelete']);
   const editHandle = (user) => {
     emit('openEdit', user);
   };

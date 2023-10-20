@@ -2,8 +2,10 @@
   <div
     @click="handleBackgroundClick"
     class="fixed flex flex-col items-center justify-center inset-0 bg-black bg-opacity-50"
+  >
+    <div
+      class="bg-white flex flex-col text-black w-1/2 rounded-lg relative max-h-[80vh] overflow-auto"
     >
-    <div class="bg-white flex flex-col text-black w-1/2 rounded-lg relative max-h-[80vh] overflow-auto">
       <h3 class="flex justify-center text-xl">Add new post</h3>
       <button
         @click="$emit('closeAdd')"
@@ -51,7 +53,7 @@
         <p class="text-red-600 text-xl" v-if="errorsValidation.name">
           {{ errorsValidation.name }}
         </p>
-         <li
+        <li
           :class="{
             border: true,
             'border-red-600 rounded-md': errorsValidation.email,
@@ -70,7 +72,7 @@
         <p class="text-red-600 text-xl" v-if="errorsValidation.email">
           {{ errorsValidation.email }}
         </p>
-         <li
+        <li
           :class="{
             border: true,
             'border-red-600 rounded-md': errorsValidation.username,
@@ -89,7 +91,7 @@
         <p class="text-red-600 text-xl" v-if="errorsValidation.website">
           {{ errorsValidation.website }}
         </p>
-         <li
+        <li
           :class="{
             border: true,
             'border-red-600 rounded-md': errorsValidation.city,
@@ -108,7 +110,7 @@
         <p class="text-red-600 text-xl" v-if="errorsValidation.city">
           {{ errorsValidation.city }}
         </p>
-         <li
+        <li
           :class="{
             border: true,
             'border-red-600 rounded-md': errorsValidation.phone,
@@ -127,7 +129,7 @@
         <p class="text-red-600 text-xl" v-if="errorsValidation.phone">
           {{ errorsValidation.phone }}
         </p>
-         <li
+        <li
           :class="{
             border: true,
             'border-red-600 rounded-md': errorsValidation.street,
@@ -146,7 +148,7 @@
         <p class="text-red-600 text-xl" v-if="errorsValidation.street">
           {{ errorsValidation.street }}
         </p>
-         <li
+        <li
           :class="{
             border: true,
             'border-red-600 rounded-md': errorsValidation.suite,
@@ -165,7 +167,7 @@
         <p class="text-red-600 text-xl" v-if="errorsValidation.suite">
           {{ errorsValidation.suite }}
         </p>
-         <li
+        <li
           :class="{
             border: true,
             'border-red-600 rounded-md': errorsValidation.zipcode,
@@ -184,7 +186,7 @@
         <p class="text-red-600 text-xl" v-if="errorsValidation.zipcode">
           {{ errorsValidation.zipcode }}
         </p>
-         <li
+        <li
           :class="{
             border: true,
             'border-red-600 rounded-md': errorsValidation.company_name,
@@ -203,7 +205,7 @@
         <p class="text-red-600 text-xl" v-if="errorsValidation.company_name">
           {{ errorsValidation.company_name }}
         </p>
-         <li
+        <li
           :class="{
             border: true,
             'border-red-600 rounded-md': errorsValidation.bs,
@@ -222,7 +224,7 @@
         <p class="text-red-600 text-xl" v-if="errorsValidation.bs">
           {{ errorsValidation.bs }}
         </p>
-         <li
+        <li
           :class="{
             border: true,
             'border-red-600 rounded-md': errorsValidation.catchPhrase,
@@ -268,14 +270,14 @@ const formData = ref({
 const errorsValidation = ref({});
 const validatePost = object({
   username: string().required(),
-  name:string().required(),
+  name: string().required(),
   email: string().email().required(),
   website: string().url().required(),
   city: string().required(),
   phone: number()
     .positive()
     .min(12, "must in international format, at should be 12 numbers long"),
-  street: string().min(2,'should be at least 3'),
+  street: string().min(2, "should be at least 3"),
   suite: string(),
   zipcode: number().min(5, "index should contain 5 numbers"),
   company_name: string(),
@@ -290,17 +292,17 @@ const confirmAdd = async () => {
       .from("posts")
       .insert([formData.value])
       .select();
-    if (!error) {
-      emit("closeAdd");
-      emit("updatePosts");
-    } else {
-      console.log(error);
+    if (error) {
+      alert(error);
+      return;
     }
+    emit("closeAdd");
+    emit("updatePosts");
   } catch (error) {
     if (error.inner) {
       error.inner.forEach((validateError) => {
         errorsValidation.value[validateError.path] = validateError.message;
-        console.log(validateError.message)
+        console.log(validateError.message);
       });
     }
   }

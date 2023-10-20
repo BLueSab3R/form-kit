@@ -61,9 +61,7 @@
     .select()
     .eq("id", +route.params.id)
     .single();
-  console.log(data);
   post.value = data;
-  
   const closeData = () => {
     isShowed.value = false;
   };

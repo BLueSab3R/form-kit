@@ -1,48 +1,3 @@
-<template>
-  <div
-    @click="handleBackgroundClick"
-    class="fixed flex flex-col items-center justify-center max-h-screen inset-0 overflow-y-auto bg-black bg-opacity-50"
-  >
-    <div class="bg-white flex flex-col text-black rounded-lg relative">
-      <FormKit
-        v-model="formData.username"
-        label="New username"
-        validation="required|length:4,20"
-        help="Please enter a username between 4 and 20 characters long."
-        validation-visibility="live"
-      >
-      </FormKit>
-      <FormKit
-        v-model="formData.name"
-        label="New name"
-        validation="required|length:4,20"
-        help="Please enter a name and surname between 4 and 20 characters long."
-        validation-visibility="live"
-      >
-      </FormKit>
-      <FormKit
-        v-model="formData.email"
-        type="email"
-        label="New email address"
-        validation="required|email"
-        validation-visibility="live"
-      >
-      </FormKit>
-      <FormKit
-        type="url"
-        v-model="formData.website"
-        label="New website"
-        validation="url"
-        validation-visibility="live"
-      >
-      </FormKit>
-      <button class="flex mt-20 justify-center" @click="updatePost">
-        Confirm
-      </button>
-    </div>
-  </div>
-</template>
-
 <style>
 .formkit-label {
   font-weight: bold;
@@ -73,6 +28,63 @@
 }
 </style>
 
+
+
+<template>
+  <div
+    @click="handleBackgroundClick"
+    class="fixed flex flex-col items-center justify-center max-h-screen inset-0 overflow-y-auto bg-black bg-opacity-50"
+  >
+    <div class="bg-white flex flex-col text-black rounded-lg relative">
+      <FormKit 
+      @submit ='updatePost'
+      :actions="false"
+       type="form"
+       submit-label="Confirm"
+       >
+        <FormKit
+          v-model="formData.username"
+          @submit="updatePost"
+          name="userName"
+          label="New username"
+          validation="required|length:4,20"
+          help="Please enter a username between 4 and 20 characters long."
+          validation-visibility="live"
+        >
+        </FormKit>
+        <FormKit
+          name="name"
+          v-model="formData.name"
+          label="New name"
+          validation="required|length:4,20"
+          help="Please enter a name and surname between 4 and 20 characters long."
+          validation-visibility="live"
+        >
+        </FormKit>
+        <FormKit
+          name="email"
+          v-model="formData.email"
+          type="email"
+          label="New email address"
+          validation="required|email"
+          validation-visibility="live"
+        >
+        </FormKit>
+        <FormKit
+          name="url"
+          type="url"
+          v-model="formData.website"
+          label="New website"
+          validation="url"
+          validation-visibility="live"
+        >
+        </FormKit>
+        <FormKit type="submit" label="Confirm" />
+      </FormKit>
+    </div>
+  </div>
+</template>
+
 <script setup>
 const client = useSupabaseClient();
 const emit = defineEmits(["closeEdit", "updatePosts"]);
@@ -89,14 +101,6 @@ const handleBackgroundClick = (event) => {
   }
 };
 
-// const formData = ref({
-//   username: "",
-//   name: "",
-//   email: "",
-//   website: "",
-//   city: "",
-//   phone: null,
-// });
 const formData = ref({
   username: props.selectedPost.username,
   name: props.selectedPost.name,
@@ -105,17 +109,9 @@ const formData = ref({
   city: props.selectedPost.city,
   phone: props.selectedPost.phone,
 });
+
 const updatePost = async () => {
-  if (
-    !formData.value.username ||
-    !formData.value.name ||
-    !formData.value.email ||
-    !formData.value.city ||
-    !formData.value.phone
-  ) {
-    alert("Please fill in all fields.");
-    return;
-  }
+  console.log('trigger');
   const { error } = await client
     .from("posts")
     .update(formData.value)
@@ -129,66 +125,3 @@ const updatePost = async () => {
   }
 };
 </script>
-<!-- <button
-          @click="$emit('closeEdit')"
-          class="absolute top-2 right-2 rounded-md border-red-400 bg-red-400 border-solid text-xl hover:bg-red-200 border-2"
-        >
-          Close
-        </button>
-  
-        <ul class="text-xl">
-          <li class="">
-            <label class="mr-2" for="selectedUsername">Username:</label>
-            <input
-              id="selectedUsername"
-              type="text"
-              v-model="formData.username"
-              placeholder="new username"
-            />
-          </li>
-          <li>
-            <label class="mr-2" for="selectedName">Name:</label>
-            <input
-              id="selectedName"
-              type="text"
-              v-model="formData.name"
-              placeholder="new name"
-            />
-          </li>
-          <li>
-            <label class="mr-2" for="selectedEmail">Email:</label>
-            <input
-              id="selectedEmail"
-              type="text"
-              v-model="formData.email"
-              placeholder="new email"
-            />
-          </li>
-          <li>
-            <label class="mr-2" for="selectedWebsite">Website:</label>
-            <input
-              id="selectedWebsite"
-              type="text"
-              v-model="formData.website"
-              placeholder="new website"
-            />
-          </li>
-          <li>
-            <label class="mr-2" for="selectedCity">City:</label>
-            <input
-              id="selectedCity"
-              type="text"
-              v-model="formData.city"
-              placeholder="new city"
-            />
-          </li>
-          <li>
-            <label class="mr-2" for="selectedPhone">Phone:</label>
-            <input
-              id="selectedPhone"
-              type="text"
-              v-model="formData.phone"
-              placeholder="new phone"
-            />
-          </li>
-        </ul> -->
