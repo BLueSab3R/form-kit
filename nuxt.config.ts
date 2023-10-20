@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     '@nuxtjs/supabase',
     '@formkit/nuxt',
   ],
+  css: ['~/assets/css/tailwind.css'],
   formkit:{
     autoImport:true,
   },
