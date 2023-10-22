@@ -1,10 +1,5 @@
 <template>
-  <FormKit
-    label="Default FormKit text input"
-    type="text"
-    help="I recieve Tailwind classes from the FormKit config!"
-  />
-  <div class="flex flex-col justify-center items-center">
+ <div class="flex flex-col justify-center items-center">
     <svg
       @click="openAdd"
       class="cursor-pointer"
